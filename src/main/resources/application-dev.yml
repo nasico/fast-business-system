@@ -12,7 +12,8 @@ spring:
       testWhileIdle: true
       timeBetweenEvictionRunsMillis: 1
       filters: stat,log4j,wall
-
+  thymeleaf:
+    cache: false
 
 mybatis:
   type-aliases-package: cn.linkztop.fastbusinesssystem.entity

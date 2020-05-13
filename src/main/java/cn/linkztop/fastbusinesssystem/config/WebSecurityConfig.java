@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+
+import javax.servlet.Filter;
 
 /**
  * @author nasico
@@ -25,9 +28,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService authService;
 
+    @Autowired
+    CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+
+    public Filter customerFilter() {
+        FilterSecurityInterceptor filterSecurityInterceptor = new FilterSecurityInterceptor();
+        filterSecurityInterceptor.setSecurityMetadataSource(customFilterInvocationSecurityMetadataSource);
+        return filterSecurityInterceptor;
     }
 
     @Override
@@ -37,25 +50,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .formLogin().loginPage("login.html").permitAll()
+        http.authorizeRequests().anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login").permitAll()
                 .loginProcessingUrl("/login")
                 .successForwardUrl("/user/index")
+                .failureUrl("/login?error")
                 .failureHandler((httpServletRequest, httpServletResponse, e) -> {
                     e.printStackTrace();
                 })
-        .and()
-            .csrf()
-        .and()
-            .cors().disable()
+                .and()
+                .rememberMe()
+                .and()
+                .logout().permitAll()
+                .and()
+                .csrf()
+                .and()
+                .cors().disable()
         ;
+        http.addFilter(customerFilter());
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .userDetailsService(authService)
-            .passwordEncoder(encoder());
+                .userDetailsService(authService)
+                .passwordEncoder(encoder());
     }
 
 }
