@@ -1,4 +1,4 @@
-package cn.linkztop.fasebusinesssystem.entity;
+package cn.linkztop.fastbusinesssystem.entity;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

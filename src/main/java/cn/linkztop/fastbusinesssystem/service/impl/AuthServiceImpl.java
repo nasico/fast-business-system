@@ -1,6 +1,7 @@
-package cn.linkztop.fasebusinesssystem.service.impl;
+package cn.linkztop.fastbusinesssystem.service.impl;
 
-import cn.linkztop.fasebusinesssystem.mapper.UserMapper;
+import cn.linkztop.fastbusinesssystem.entity.User;
+import cn.linkztop.fastbusinesssystem.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,8 +24,11 @@ public class AuthServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        return null;
+        User user = userMapper.loadUserByUsername(username);
+        if(user == null){
+            throw new UsernameNotFoundException(String.format("the user %s is not found",username));
+        }
+        return user;
     }
 
 }

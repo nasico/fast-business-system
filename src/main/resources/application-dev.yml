@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost/dula?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+      initial-size: 5
+      max-active: 7
+      validationQuery: select 'x'
+      maxPoolPreparedStatementPerConnectionSize: 100
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 1
+      filters: stat,log4j,wall
+
+
+mybatis:
+  type-aliases-package: cn.linkztop.fastbusinesssystem.entity
+  mapper-locations: classpath*:/mappers/*.xml

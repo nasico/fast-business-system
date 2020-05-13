@@ -1,4 +1,4 @@
-package cn.linkztop.fasebusinesssystem.config;
+package cn.linkztop.fastbusinesssystem.config;
 
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * @author nasico
  */
-@Component
+//@Component
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
