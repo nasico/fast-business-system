@@ -11,7 +11,7 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 100
       testWhileIdle: true
       timeBetweenEvictionRunsMillis: 1
-      filters: stat,log4j,wall
+      filters: stat,slf4j,wall
   thymeleaf:
     cache: false
 
